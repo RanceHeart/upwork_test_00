@@ -1,0 +1,12 @@
+fastapi~=0.111.0
+uvicorn
+sqlalchemy~=2.0.30
+pydantic~=2.7.3
+cachetools
+mysql-connector-python
+alembic
+python-jose[cryptography]
+python-dotenv~=1.0.1
+passlib
+pytest
+bcrypt
