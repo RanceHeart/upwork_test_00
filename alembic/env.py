@@ -8,20 +8,19 @@ from sqlalchemy import pool
 from alembic import context
 from dotenv import load_dotenv
 
-# 加载 .env 文件
+# load .env 文件
 load_dotenv()
 
-# 获取当前文件的目录
+# load dir tree
 sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app.database import Base
-from app.models import user, post  # 确保路径正确
+from app.models import user, post
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
-# 从环境变量中获取数据库URL，并覆盖alembic.ini中的配置
 config.set_main_option('sqlalchemy.url', os.getenv('DATABASE_URL'))
 
 # Interpret the config file for Python logging.

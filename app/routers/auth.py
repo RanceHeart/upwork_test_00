@@ -8,21 +8,22 @@ from sqlalchemy.exc import SQLAlchemyError
 router = APIRouter()
 
 
-@router.post('/signup', response_model=schemas.user.User)
+@router.post('/signup', response_model=schemas.User, summary="User Signup", description="Create a new user account.")
 def signup(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
-    try:
-        db_user = crud.get_user_by_email(db, email=user.email)
-        if db_user:
-            raise HTTPException(status_code=400, detail="Email already registered")
-        return crud.create_user(db=db, user=user)
-    except SQLAlchemyError as e:
-        raise HTTPException(status_code=500, detail="Database error")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    """
+    Create a new user with the provided email and password.
+    """
+    db_user = crud.get_user_by_email(db, email=user.email)
+    if db_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    return crud.create_user(db=db, user=user)
 
 
-@router.post('/login')
-def login(user: schemas.user.UserCreate, db: Session = Depends(database.get_db)):
+@router.post('/login', summary="User Login", description="Authenticate user and return a JWT token.")
+def login(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
+    """
+    Authenticate a user with the provided email and password.
+    """
     try:
         db_user = crud.get_user_by_email(db, email=user.email)
         if not db_user:

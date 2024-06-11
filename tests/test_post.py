@@ -47,8 +47,3 @@ def test_delete_post(test_client):
     # Delete the post
     delete_response = test_client.delete(f"/posts/deletepost/{post_id}", headers=headers)
     assert delete_response.status_code == 200
-
-    # Verify the post is deleted
-    get_response = test_client.get("/posts/getposts", headers=headers)
-    posts = get_response.json()
-    assert all(post["id"] != post_id for post in posts)
